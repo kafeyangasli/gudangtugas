@@ -51,7 +51,5 @@ def SOR_3P(p1, p2, p3, omega, error):
 
       ite += 1
       hasil.append([ite, xn, yn, zn])
-
-   print(tabulate(hasil, headers=["i", "x", "y", "z"]))
    
-   return hasil[-1][1:]
+   return hasil[-1][1:], tabulate(hasil, headers=["i", "x", "y", "z"], tablefmt='html')
