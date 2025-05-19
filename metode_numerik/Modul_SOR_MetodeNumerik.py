@@ -37,7 +37,7 @@ def SOR_3P(pers_1, pers_2, pers_3, omega, error):
    x1 = (1 - omega) * hasil[0][1] + omega * x1
    y1 = (1 - omega) * hasil[0][2] + omega * y1
    z1 = (1 - omega) * hasil[0][3] + omega * z1
-
+   ### Masukkan hasil iterasi ke tabel sebagai dokumentasi
    iterasi += 1
    hasil.append([iterasi, x1, y1, z1])
 
@@ -53,6 +53,7 @@ def SOR_3P(pers_1, pers_2, pers_3, omega, error):
       yn = (1 - omega) * hasil[iterasi][2] + omega * yn
       zn = (1 - omega) * hasil[iterasi][3] + omega * zn
 
+      ### Masukkan hasil iterasi ke tabel sebagai dokumentasi
       iterasi += 1
       hasil.append([iterasi, xn, yn, zn])
    
