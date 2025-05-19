@@ -2,26 +2,26 @@ from sympy.abc import x, y, z
 from sympy import Eq, Poly
 from tabulate import tabulate
 
-def SOR_3P(pers_1, pers_2, pers_3, omega, error):
+def SOR_3P(pers_1, pers_2, pers_3, estimate, omega, error):
    ## Fungsi Pembantu
    def koefisien(persamaan):
       return (Poly(((persamaan.subs(x, x**3)).subs(y, x**2)).subs(z, x)).all_coeffs())[0:3]
 
    ## Algoritma Utama
    iterasi = 0                                              # Penunjuk saat ini sudah sampai iterasi keberapa
-   hasil = [[0, 0, 0, 0]]                                   # Inisialisasi tabel hasil komputasi
+   omega = 1                                                # Faktor Relaksasi
+   hasil = [([iterasi]).append(estimate)]                   # Inisialisasi tabel hasil komputasi
    matriks_a = [                                                           
       koefisien(pers_1.lhs),                                #  #  #  #  #  #  #  #  #  #  #  #  #  #  #  #  #  #  #  #  #  #  #
-      koefisien(pers_2.lhs),                                # Inisialisasi Matriks A yang merupakan koefisien dari persamaan  #
+      koefisien(pers_2.lhs),                                #  Inisialisasi Matriks A yang merupakan koefisien dari persamaan #
       koefisien(pers_3.lhs)                                 #  #  #  #  #  #  #  #  #  #  #  #  #  #  #  #  #  #  #  #  #  #  #
    ]   
    matriks_x = [x, y, z]                                    # Inisialisasi Matriks X yang berisikan variabel (x, y, z)
    matriks_b = [pers_1.rhs, pers_2.rhs, pers_3.rhs]         # Inisialisasi Matriks B yang merupakan hasil dari persamaan
-   diagonal_utama = [matriks_a[i][i] for i in range(3)]     # Elemen dari diagonal utama Matriks A
 
    persamaan_baru = [                                       # Menginisialisasi persamaan iterasi Gauss-Seidel
       (
-         1 / diagonal_utama[i]
+         1 / matriks_a[i][i]
       ) * (
          matriks_b[i] 
          - sum(matriks_a[i][j]*matriks_x[j] for j in range(0, i + 1) if j < i) 
@@ -52,7 +52,6 @@ def SOR_3P(pers_1, pers_2, pers_3, omega, error):
       xn = (1 - omega) * hasil[iterasi][1] + omega * xn
       yn = (1 - omega) * hasil[iterasi][2] + omega * yn
       zn = (1 - omega) * hasil[iterasi][3] + omega * zn
-
       ### Masukkan hasil iterasi ke tabel sebagai dokumentasi
       iterasi += 1
       hasil.append([iterasi, xn, yn, zn])
