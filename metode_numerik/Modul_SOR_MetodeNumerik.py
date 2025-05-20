@@ -3,8 +3,10 @@ from sympy import Eq, Poly
 from tabulate import tabulate
 
 class HasilSOR_3P():
-   def __init__(self, tabel_hasil, list_persamaan, iterasi):
+   def __init__(self, tabel_hasil, list_persamaan, iterasi, omega, error):
       hasil = tabel_hasil [-1][1:]
+      self.relax = omega
+      self.error = error
       self.persamaan = list_persamaan
       self.x = hasil[0]
       self.y = hasil[1]
@@ -18,9 +20,11 @@ class HasilSOR_3P():
       p2 = self.persamaan[1]
       p3 = self.persamaan[2]
       return f"""HASIL KOMPUTASI SUCCESSIVE OVER-RELAXATION\n{"-" * 10}\n
-PERSAMAAN 1\t: {str(p1.lhs) + " = " + str(p1.rhs)}
-PERSAMAAN 2\t: {str(p2.lhs) + " = " + str(p2.rhs)}
-PERSAMAAN 3\t: {str(p3.lhs) + " = " + str(p3.rhs)}
+PERSAMAAN 1\t\t: {str(p1.lhs) + " = " + str(p1.rhs)}
+PERSAMAAN 2\t\t: {str(p2.lhs) + " = " + str(p2.rhs)}
+PERSAMAAN 3\t\t: {str(p3.lhs) + " = " + str(p3.rhs)}
+MENGGUNAKAN GALAT\t: {self.error}
+DAN FAKTOR RELAKSASI\t: {self.relax}
 {"-" * 10}\n
 BANYAKNYA ITERASI\t: {self.i}
 NILAI HAMPIRAN X\t: {self.x}
@@ -81,7 +85,7 @@ def SOR_3P(pers_1, pers_2, pers_3, estimate, omega, error):
       iterasi += 1
       hasil.append([iterasi, xn, yn, zn])
    
-   return HasilSOR_3P(hasil, [pers_1, pers_2, pers_3], iterasi)
+   return HasilSOR_3P(hasil, [pers_1, pers_2, pers_3], iterasi, omega, error)
 
 ## Contoh Pengaplikasian
 if __name__ == "__main__":
