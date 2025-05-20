@@ -2,6 +2,32 @@ from sympy.abc import x, y, z
 from sympy import Eq, Poly
 from tabulate import tabulate
 
+class HasilSOR_3P():
+   def __init__(self, tabel_hasil, list_persamaan, iterasi):
+      hasil = tabel_hasil [-1][1:]
+      self.persamaan = list_persamaan
+      self.x = hasil[0]
+      self.y = hasil[1]
+      self.z = hasil[2]
+      self.i = iterasi
+      self.def_tabit = tabulate(tabel_hasil, headers=["i", "x", "y", "z"])
+      self.html_tabit = tabulate(tabel_hasil, headers=["i", "x", "y", "z"], tablefmt="html")
+
+   def __str__(self):
+      p1 = self.persamaan[0]
+      p2 = self.persamaan[1]
+      p3 = self.persamaan[2]
+      return f"""HASIL KOMPUTASI SUCCESSIVE OVER-RELAXATION\n{"-" * 10}\n
+PERSAMAAN 1\t: {str(p1.lhs) + " = " + str(p1.rhs)}
+PERSAMAAN 2\t: {str(p2.lhs) + " = " + str(p2.rhs)}
+PERSAMAAN 3\t: {str(p3.lhs) + " = " + str(p3.rhs)}
+{"-" * 10}\n
+BANYAKNYA ITERASI\t: {self.i}
+NILAI HAMPIRAN X\t: {self.x}
+NILAI HAMPIRAN Y\t: {self.y}
+NILAI HAMPIRAN Z\t: {self.z}
+            """
+
 def SOR_3P(pers_1, pers_2, pers_3, estimate, omega, error):
    ## Fungsi Pembantu
    def koefisien(persamaan):
@@ -55,7 +81,7 @@ def SOR_3P(pers_1, pers_2, pers_3, estimate, omega, error):
       iterasi += 1
       hasil.append([iterasi, xn, yn, zn])
    
-   return hasil[-1][1:], tabulate(hasil, headers=["i", "x", "y", "z"], tablefmt='html')
+   return HasilSOR_3P(hasil, [pers_1, pers_2, pers_3], iterasi)
 
 ## Contoh Pengaplikasian
 if __name__ == "__main__":
@@ -66,7 +92,8 @@ if __name__ == "__main__":
    pers_2 = Eq(x + 7*y + 5*z, 101)
    pers_3 = Eq(6*x + 3*y + 9*z, 123)
 
-   h, t = SOR_3P(pers_1, pers_2 ,pers_3, [0, 0, 0], 1, 0.01)
+   hasil = SOR_3P(pers_1, pers_2 ,pers_3, [0, 0, 0], 1, 0.01)
 
-   h  # Ambil Nilai Hasil Terakhirnya saja
-   t  # Menampilkan tabel dalam bentuk html agar bisa terlihat jelas dalam IPYNB
+   print(hasil)  # Ambil Nilai Hasil Terakhirnya saja
+   hasil.html_tabit  # Menampilkan tabel dalam bentuk html agar bisa terlihat jelas dalam IPYNB
+   print(hasil.def_tabit) # Atau dalam bentuk print saja
