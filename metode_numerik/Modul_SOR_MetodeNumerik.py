@@ -9,7 +9,6 @@ def SOR_3P(pers_1, pers_2, pers_3, estimate, omega, error):
 
    ## Algoritma Utama
    iterasi = 0                                              # Penunjuk saat ini sudah sampai iterasi keberapa
-   omega = 1                                                # Faktor Relaksasi
    hasil = [[iterasi] + estimate]                           # Inisialisasi tabel hasil komputasi
    matriks_a = [                                                           
       koefisien(pers_1.lhs),                                #  #  #  #  #  #  #  #  #  #  #  #  #  #  #  #  #  #  #  #  #  #  #
