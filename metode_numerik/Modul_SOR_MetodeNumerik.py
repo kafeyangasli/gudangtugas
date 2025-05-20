@@ -10,7 +10,7 @@ def SOR_3P(pers_1, pers_2, pers_3, estimate, omega, error):
    ## Algoritma Utama
    iterasi = 0                                              # Penunjuk saat ini sudah sampai iterasi keberapa
    omega = 1                                                # Faktor Relaksasi
-   hasil = [([iterasi]).append(estimate)]                   # Inisialisasi tabel hasil komputasi
+   hasil = [[iterasi] + estimate]                           # Inisialisasi tabel hasil komputasi
    matriks_a = [                                                           
       koefisien(pers_1.lhs),                                #  #  #  #  #  #  #  #  #  #  #  #  #  #  #  #  #  #  #  #  #  #  #
       koefisien(pers_2.lhs),                                #  Inisialisasi Matriks A yang merupakan koefisien dari persamaan #
@@ -57,3 +57,17 @@ def SOR_3P(pers_1, pers_2, pers_3, estimate, omega, error):
       hasil.append([iterasi, xn, yn, zn])
    
    return hasil[-1][1:], tabulate(hasil, headers=["i", "x", "y", "z"], tablefmt='html')
+
+## Contoh Pengaplikasian
+if __name__ == "__main__":
+   ## SPL SUDAH HARUS TERURUT BERDASARKAN DIAGONAL UTAMA TERBESARNYA!
+   ## JIKA TIDAK, MAKA KEMUNGKINAN BESAR AKAN DIVERGEN
+
+   pers_1 = Eq(10*x + 5*y + 2*z, 75)
+   pers_2 = Eq(x + 7*y + 5*z, 101)
+   pers_3 = Eq(6*x + 3*y + 9*z, 123)
+
+   h, t = SOR_3P(pers_1, pers_2 ,pers_3, [0, 0, 0], 1, 0.01)
+
+   h  # Ambil Nilai Hasil Terakhirnya saja
+   t  # Menampilkan tabel dalam bentuk html agar bisa terlihat jelas dalam IPYNB
