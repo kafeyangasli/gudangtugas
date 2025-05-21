@@ -12,6 +12,7 @@ class HasilSOR_3P():
       self.y = hasil[1]
       self.z = hasil[2]
       self.i = iterasi
+      self.tabit = tabel_hasil
       self.def_tabit = tabulate(tabel_hasil, headers=["i", "x", "y", "z"])
       self.html_tabit = tabulate(tabel_hasil, headers=["i", "x", "y", "z"], tablefmt="html")
 
