@@ -62,3 +62,8 @@ def det(mtx):
          rv += cf
          
       return rv
+
+def print_matriks(m):
+   for baris in m:
+      for kolom in baris:
+         print(kolom, end=" ")
